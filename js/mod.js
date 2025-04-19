@@ -1,19 +1,19 @@
 let modInfo = {
-	name: "The ??? Tree",
-	author: "nobody",
-	pointsName: "points",
+	name: "Arc Tree",
+	author: "TEWAR",
+	pointsName: "fragments",
 	modFiles: ["layers.js", "tree.js"],
 
 	discordName: "",
 	discordLink: "",
-	initialStartPoints: new Decimal (10), // Used for hard resets and new players
+	initialStartPoints: new Decimal (15), // Used for hard resets and new players
 	offlineLimit: 1,  // In hours
 }
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.0",
-	name: "Literally nothing",
+	num: "0.0.1",
+	name: "A Glimpse of the World",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -42,6 +42,17 @@ function getPointGen() {
 		return new Decimal(0)
 
 	let gain = new Decimal(1)
+
+	if (hasAchievement("a", 11)) gain=gain.add(1);
+
+	if (hasUpgrade('mem', 11)) gain = gain.times(upgradeEffect('mem', 11));
+	if (hasUpgrade('mem', 14)) gain = gain.times(upgradeEffect('mem', 14));
+	if (hasUpgrade('mem', 22)) gain = gain.times(upgradeEffect('mem', 22));
+	if (player.light.unlocked) gain = gain.times(tmp.light.effect);
+	if (hasUpgrade('dark', 11) && !canReset('dark')) gain = gain.times(new Decimal(2))
+	if (hasUpgrade('dark', 12)) gain = gain.times(upgradeEffect('dark',12));
+
+
 	return gain
 }
 
